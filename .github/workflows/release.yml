@@ -92,16 +92,16 @@ jobs:
             ghcr.io/sylvesterfox/vectoshop-nginx:${{ steps.vars.outputs.version }}
             ghcr.io/sylvesterfox/vectoshop-nginx:latest
 
-      - name: Build release notes from changelog
-        env:
-          TAG_NAME: ${{ github.ref_name }}
-        run: |
-          python scripts/build_release_notes.py \
-            --version "${TAG_NAME#v}" \
-            --tag "${TAG_NAME}" \
-            --changelog CHANGELOG.md \
-            --template .github/release-template.md \
-            --output release-notes.md
+      # - name: Build release notes from changelog
+      #   env:
+      #     TAG_NAME: ${{ github.ref_name }}
+      #   run: |
+      #     python scripts/build_release_notes.py \
+      #       --version "${TAG_NAME#v}" \
+      #       --tag "${TAG_NAME}" \
+      #       --changelog CHANGELOG.md \
+      #       --template .github/release-template.md \
+      #       --output release-notes.md
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2.6.1
