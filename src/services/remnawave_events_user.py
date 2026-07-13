@@ -102,6 +102,7 @@ async def handle_status_change_user_event(
         status=SubscriptionStatus(remna_user.status),
         user_remna_id=remna_user.uuid,
     )
+
     if event == RemnaUserEvent.LIMITED:
         await limited_task.kiq(
             remna_user=remna_user,

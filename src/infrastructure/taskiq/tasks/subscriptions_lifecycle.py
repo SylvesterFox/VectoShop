@@ -45,6 +45,12 @@ async def _resolve_target_subscription(
     else:
         subscription = await subscription_service.get_current(user.telegram_id)
 
+    logger.info(
+        "Resolve subscription: telegram=%s remna=%s",
+        user_telegram_id,
+        user_remna_id,
+    )
+
     return user, subscription
 
 
@@ -118,6 +124,13 @@ async def _update_status_current_subscription_task(
         return
 
     subscription.status = status
+    logger.info(
+        "Updating subscription id=%s remna_id=%s from=%s to=%s",
+        subscription.id,
+        subscription.user_remna_id,
+        subscription.status,
+        status,
+    )
     await subscription_service.update(subscription)
 
 
