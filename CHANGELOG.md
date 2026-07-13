@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, adapted for the public AltShop GitHub m
 
 ## [Unreleased]
 
+
+
 ## [1.5.0] - 2026-04-14
 
 ### Changed

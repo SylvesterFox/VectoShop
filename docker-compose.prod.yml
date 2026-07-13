@@ -1,14 +1,14 @@
 services:
-  altshop-nginx:
-    image: ghcr.io/sylvesterfox/vectoshop-nginx:${ALTSHOP_NGINX_IMAGE_TAG:-latest}
-    container_name: altshop-nginx
-    hostname: altshop-nginx
+  vectoshop-nginx:
+    image: ghcr.io/sylvesterfox/vectoshop-nginx:${vectoshop_NGINX_IMAGE_TAG:-latest}
+    container_name: vectoshop-nginx
+    hostname: vectoshop-nginx
     restart: always
     env_file:
       - .env
     volumes:
-      - ${NGINX_SSL_FULLCHAIN_PATH:-/opt/altshop/nginx/remnabot_fullchain.pem}:/etc/nginx/ssl/fullchain.pem:ro
-      - ${NGINX_SSL_PRIVKEY_PATH:-/opt/altshop/nginx/remnabot_privkey.key}:/etc/nginx/ssl/privkey.key:ro
+      - ${NGINX_SSL_FULLCHAIN_PATH:-/opt/vectoshop/nginx/remnabot_fullchain.pem}:/etc/nginx/ssl/fullchain.pem:ro
+      - ${NGINX_SSL_PRIVKEY_PATH:-/opt/vectoshop/nginx/remnabot_privkey.key}:/etc/nginx/ssl/privkey.key:ro
     ports:
       - "0.0.0.0:${NGINX_HTTPS_PORT:-443}:443"
     networks:
@@ -19,10 +19,10 @@ services:
       timeout: 3s
       retries: 3
 
-  altshop-db:
+  vectoshop-db:
     image: postgres:17
-    container_name: "altshop-db"
-    hostname: altshop-db
+    container_name: "vectoshop-db"
+    hostname: vectoshop-db
     restart: unless-stopped
     env_file:
       - .env
@@ -32,7 +32,7 @@ services:
       - POSTGRES_DB=${DATABASE_NAME}
       - TZ=UTC
     volumes:
-      - altshop-db-data:/var/lib/postgresql/data
+      - vectoshop-db-data:/var/lib/postgresql/data
     networks:
       - remnawave-network
     healthcheck:
@@ -41,14 +41,14 @@ services:
       timeout: 10s
       retries: 3
 
-  altshop-redis:
+  vectoshop-redis:
     image: valkey/valkey:9-alpine
-    container_name: "altshop-redis"
-    hostname: altshop-redis
+    container_name: "vectoshop-redis"
+    hostname: vectoshop-redis
     restart: unless-stopped
     command: ["--requirepass", "${REDIS_PASSWORD}", "--bind", "0.0.0.0"]
     volumes:
-      - altshop-redis-data:/data
+      - vectoshop-redis-data:/data
     networks:
       - remnawave-network
     healthcheck:
@@ -57,10 +57,10 @@ services:
       timeout: 10s
       retries: 3
 
-  altshop:
-    image: ghcr.io/sylvesterfox/vectoshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
-    container_name: "altshop"
-    hostname: altshop
+  vectoshop:
+    image: ghcr.io/sylvesterfox/vectoshop-backend:${vectoshop_IMAGE_TAG:-latest}
+    container_name: "vectoshop"
+    hostname: vectoshop
     restart: unless-stopped
     env_file:
       - .env
@@ -70,22 +70,22 @@ services:
       RESET_ASSETS: "${RESET_ASSETS:-false}"
       UVICORN_RELOAD_ENABLED: "false"
     depends_on:
-      altshop-nginx:
+      vectoshop-nginx:
         condition: service_healthy
-      altshop-db:
+      vectoshop-db:
         condition: service_healthy
-      altshop-redis:
+      vectoshop-redis:
         condition: service_healthy
     volumes:
-      - ./logs:/opt/altshop/logs
-      - ./assets:/opt/altshop/assets
+      - ./logs:/opt/vectoshop/logs
+      - ./assets:/opt/vectoshop/assets
     networks:
       - remnawave-network
 
-  altshop-taskiq-worker:
-    image: ghcr.io/sylvesterfox/vectoshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
-    container_name: "altshop-taskiq-worker"
-    hostname: altshop-taskiq-worker
+  vectoshop-taskiq-worker:
+    image: ghcr.io/sylvesterfox/vectoshop-backend:${vectoshop_IMAGE_TAG:-latest}
+    container_name: "vectoshop-taskiq-worker"
+    hostname: vectoshop-taskiq-worker
     restart: unless-stopped
     command: taskiq worker src.infrastructure.taskiq.worker:worker --tasks-pattern src/infrastructure/taskiq/tasks -fsd
     env_file:
@@ -93,18 +93,18 @@ services:
     environment:
       RESET_ASSETS: "${RESET_ASSETS:-false}"
     depends_on:
-      altshop:
+      vectoshop:
         condition: service_started
     volumes:
-      - ./logs:/opt/altshop/logs
-      - ./assets:/opt/altshop/assets
+      - ./logs:/opt/vectoshop/logs
+      - ./assets:/opt/vectoshop/assets
     networks:
       - remnawave-network
 
-  altshop-taskiq-scheduler:
-    image: ghcr.io/sylvesterfox/vectoshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
-    container_name: "altshop-taskiq-scheduler"
-    hostname: altshop-taskiq-scheduler
+  vectoshop-taskiq-scheduler:
+    image: ghcr.io/sylvesterfox/vectoshop-backend:${vectoshop_IMAGE_TAG:-latest}
+    container_name: "vectoshop-taskiq-scheduler"
+    hostname: vectoshop-taskiq-scheduler
     restart: unless-stopped
     command: taskiq scheduler src.infrastructure.taskiq.scheduler:scheduler --tasks-pattern src/infrastructure/taskiq/tasks -fsd
     env_file:
@@ -112,11 +112,11 @@ services:
     environment:
       RESET_ASSETS: "${RESET_ASSETS:-false}"
     depends_on:
-      altshop:
+      vectoshop:
         condition: service_started
     volumes:
-      - ./logs:/opt/altshop/logs
-      - ./assets:/opt/altshop/assets
+      - ./logs:/opt/vectoshop/logs
+      - ./assets:/opt/vectoshop/assets
     networks:
       - remnawave-network
 
@@ -127,7 +127,7 @@ networks:
     external: false
 
 volumes:
-  altshop-db-data:
-    name: ${ALTSHOP_DB_VOLUME_NAME:-altshop-db-data}
-  altshop-redis-data:
-    name: ${ALTSHOP_REDIS_VOLUME_NAME:-altshop-redis-data}
+  vectoshop-db-data:
+    name: ${vectoshop_DB_VOLUME_NAME:-vectoshop-db-data}
+  vectoshop-redis-data:
+    name: ${vectoshop_REDIS_VOLUME_NAME:-vectoshop-redis-data}
