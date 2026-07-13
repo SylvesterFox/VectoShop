@@ -149,6 +149,9 @@ class YoomoneyGateway(BasePaymentGateway):
 
     async def handle_webhook(self, request: Request) -> tuple[UUID, TransactionStatus]:
         form_data = await self._parse_request_data(request)
+        logger.info("YooMoney webhook payload: {}", form_data)
+        body = await request.body()
+        logger.info("Raw YooMoney webhook body: {}", body.decode("utf-8", errors="replace"))
         notification_type = (form_data.get("notification_type") or "").strip().lower()
         if notification_type not in self.SUPPORTED_NOTIFICATION_TYPES:
             raise ValueError("Unsupported YooMoney notification_type")
