@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>AltShop</h1>
+  <h1>VectoShop</h1>
   <p><strong>Telegram-бот, FastAPI API и React web app для продажи VPN-подписок с интеграцией Remnawave.</strong></p>
   <p><a href="./README.md">ENGLISH</a> | РУССКИЙ</p>
   <p>
