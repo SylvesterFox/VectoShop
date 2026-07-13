@@ -1,6 +1,6 @@
 services:
   altshop-nginx:
-    image: ghcr.io/dizzzable/altshop-nginx:${ALTSHOP_NGINX_IMAGE_TAG:-latest}
+    image: ghcr.io/sylvesterfox/vectoshop-nginx:${ALTSHOP_NGINX_IMAGE_TAG:-latest}
     container_name: altshop-nginx
     hostname: altshop-nginx
     restart: always
@@ -58,7 +58,7 @@ services:
       retries: 3
 
   altshop:
-    image: ghcr.io/dizzzable/altshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
+    image: ghcr.io/sylvesterfox/vectoshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
     container_name: "altshop"
     hostname: altshop
     restart: unless-stopped
@@ -83,7 +83,7 @@ services:
       - remnawave-network
 
   altshop-taskiq-worker:
-    image: ghcr.io/dizzzable/altshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
+    image: ghcr.io/sylvesterfox/vectoshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
     container_name: "altshop-taskiq-worker"
     hostname: altshop-taskiq-worker
     restart: unless-stopped
@@ -102,7 +102,7 @@ services:
       - remnawave-network
 
   altshop-taskiq-scheduler:
-    image: ghcr.io/dizzzable/altshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
+    image: ghcr.io/sylvesterfox/vectoshop-backend:${ALTSHOP_IMAGE_TAG:-latest}
     container_name: "altshop-taskiq-scheduler"
     hostname: altshop-taskiq-scheduler
     restart: unless-stopped
