@@ -89,7 +89,7 @@ jobs:
           file: ./nginx/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}vectoshop-nginx:${{ steps.vars.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/vectoshop-nginx:${{ steps.vars.outputs.version }}
             ghcr.io/${{ github.repository_owner }}/vectoshop-nginx:latest
 
       - name: Build release notes from changelog
