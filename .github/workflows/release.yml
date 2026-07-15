@@ -107,7 +107,7 @@ jobs:
         uses: softprops/action-gh-release@v2.6.1
         with:
           tag_name: ${{ github.ref_name }}
-          name: AltShop ${{ github.ref_name }}
+          name: VectoShop ${{ github.ref_name }}
           body_path: release-notes.md
 
       - name: Notify production about published release
