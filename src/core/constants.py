@@ -16,7 +16,7 @@ WEB_LOGIN_PATTERN: Pattern[str] = re.compile(r"^(?![._])[a-z0-9._]{3,32}(?<![._]
 DATETIME_FORMAT: Final[str] = "%d.%m.%Y %H:%M:%S"
 
 T_ME: Final[str] = "https://t.me/"
-API_V1: Final[str] = "/api"
+API_V1: Final[str] = "/api/v1"
 BOT_WEBHOOK_PATH: Final[str] = "/telegram"
 PAYMENTS_WEBHOOK_PATH: Final[str] = "/payments"
 REMNAWAVE_WEBHOOK_PATH: Final[str] = "/remnawave"
