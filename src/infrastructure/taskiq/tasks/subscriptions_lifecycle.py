@@ -6,7 +6,7 @@ from uuid import UUID
 from loguru import logger
 from remnawave import RemnawaveSDK
 
-from core.utils.time import datetime_now
+# from core.utils.time import datetime_now
 from src.core.constants import EXPIRED_SUBSCRIPTION_CLEANUP_DAYS
 from src.core.enums import SubscriptionStatus
 from src.infrastructure.database.models.dto import SubscriptionDto, UserDto
