@@ -6,6 +6,7 @@ from uuid import UUID
 from loguru import logger
 from remnawave import RemnawaveSDK
 
+from core.utils.time import datetime_now
 from src.core.constants import EXPIRED_SUBSCRIPTION_CLEANUP_DAYS
 from src.core.enums import SubscriptionStatus
 from src.infrastructure.database.models.dto import SubscriptionDto, UserDto
@@ -154,6 +155,13 @@ async def _cleanup_expired_subscriptions_task(
 
     deleted_count = 0
     failed_count = 0
+
+    # expired = await subscription_service.get_active()
+
+    # for sub in expired:
+    #     if sub.expire_at <= datetime_now():
+    #         sub.status = SubscriptionStatus.EXPIRED
+    #         await subscription_service.update(sub)
 
     for subscription in expired_subscriptions:
         try:

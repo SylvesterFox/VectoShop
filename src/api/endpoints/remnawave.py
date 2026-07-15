@@ -67,6 +67,14 @@ async def remnawave_webhook(
                 event=payload.event,
             )
 
+            logger.info(
+                "Webhook event={} status={} expire_at={} telegram_id={}",
+                payload.event,
+                user.status,
+                user.expire_at,
+                user.telegram_id,
+            )
+
         elif WebhookUtility.is_node_event(payload.event):
             node = cast(NodeDto, WebhookUtility.get_typed_data(payload))
             await remnawave_service.handle_node_event(payload.event, node)
